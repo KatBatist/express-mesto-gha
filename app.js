@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
+const notFoundRouter = require('./routes/notFound');
 
 const { PORT = 3000 } = process.env;
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 
 app.use('/', usersRoutes);
 app.use('/', cardsRoutes);
+app.all('*', notFoundRouter);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
