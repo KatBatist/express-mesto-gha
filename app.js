@@ -25,6 +25,4 @@ app.use('/', usersRoutes);
 app.use('/', cardsRoutes);
 app.all('*', notFoundRouter);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);
