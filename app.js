@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi } = require('celebrate');
+const { errors, celebrate, Joi } = require('celebrate');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 
@@ -53,15 +53,15 @@ app.all('*', () => {
   throw new ForbiddenError('Запрашиваемый ресурс не найден');
 });
 
+app.use(errors());
+
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
-
   res.status(statusCode).send({
     message: statusCode === 500
-      ? `На сервере произошла ошибка : ${err}`
+      ? 'На сервере произошла ошибка'
       : message,
   });
-
   next();
 });
 
