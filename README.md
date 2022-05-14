@@ -11,6 +11,10 @@
 * API REST
 * MongoDB
 * Git
+* eslint
+* validator
+* jsonwebtoken
+* bcryptjs
 ## Планы по доработке проекта
 
 * подключение созданного сервера к проекту "Место"
