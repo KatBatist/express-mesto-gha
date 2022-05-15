@@ -26,11 +26,6 @@ const getUserById = (req, res, next) => {
       }
       res.status(200).send({ data: user });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new NotReqError(`Нет пользователя с таким id: ${err}`);
-      }
-    })
     .catch(next);
 };
 
@@ -125,11 +120,6 @@ const getCurrentUser = (req, res, next) => {
         throw new NotFoundError('Нет пользователя с таким id');
       }
       res.status(200).send({ data: user });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new NotReqError(`Пользователь по указанному _id не найден: ${err}`);
-      }
     })
     .catch(next);
 };
