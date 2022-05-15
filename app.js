@@ -8,7 +8,7 @@ const { createUser, login } = require('./controllers/users');
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
 
-const ForbiddenError = require('./errors/forbidden-err');
+const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3000 } = process.env;
 
@@ -50,7 +50,7 @@ app.use(auth);
 app.use('/', usersRoutes);
 app.use('/', cardsRoutes);
 app.all('*', () => {
-  throw new ForbiddenError('Запрашиваемый ресурс не найден');
+  throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 
 app.use(errors());
