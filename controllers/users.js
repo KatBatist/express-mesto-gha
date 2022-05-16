@@ -10,9 +10,6 @@ const UniqueError = require('../errors/unique-err');
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
-      if (users.length === 0) {
-        throw new NotFoundError('Пользователи не найдены');
-      }
       res.status(200).send({ data: users });
     })
     .catch(next);
@@ -56,13 +53,14 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new NotReqError(`Переданы некорректные данные при создании пользователя: ${err}`);
+        next(new NotReqError(`Переданы некорректные данные при создании пользователя: ${err}`));
       }
       if (err.code === 11000) {
-        throw new UniqueError('Пользователь с таким email уже существует');
+        next(new UniqueError('Пользователь с таким email уже существует'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const updateUser = (req, res, next) => {
@@ -76,10 +74,11 @@ const updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new NotReqError(`Переданы некорректные данные при обновлении профиля: ${err}`);
+        next(new NotReqError(`Переданы некорректные данные при обновлении профиля: ${err}`));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const updateAvatar = (req, res, next) => {
@@ -93,10 +92,11 @@ const updateAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new NotReqError(`Переданы некорректные данные при обновлении аватара: ${err}`);
+        next(new NotReqError(`Переданы некорректные данные при обновлении аватара: ${err}`));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const login = (req, res, next) => {
